@@ -104,6 +104,8 @@ class AFSAccessToken(RefreshableAccessToken):
 						issued = _parse_date(issued_str + ' %d' % cur_year, '%b %d %H:%M:%S %Y')
 						if expires < issued:  # wraparound at new year
 							expires = _parse_date(expires_str + ' %d' % (cur_year + 1), '%b %d %H:%M:%S %Y')
+                                        elif expires_str.count(' ') == 1: # different format of date
+                                                expires = _parse_date(expires_str, '%d.%m.%Y %H:%M:%S')
 					self._cache.setdefault('tickets', {})[principal] = expires
 				elif line.count(':') == 1:
 					(key, value) = lmap(str.strip, line.split(':', 1))
